@@ -3,7 +3,9 @@ from datetime import date
 
 # Create Categories
 web_dev, _ = Category.objects.get_or_create(name="Web Development", description="Web apps and sites")
-ai_ml, _ = Category.objects.get_or_create(name="AI & Machine Learning", description="AI/ML Projects")
+ai_ml, _ = Category.objects.get_or_create(name="AI and Machine Learning", description="AI/ML Projects")
+business, _ = Category.objects.get_or_create(name="Business and Data Analytics", description="Data Viz and Business Logic")
+hack, _ = Category.objects.get_or_create(name="Hackathons", description="Hackathon Projects")
 writing, _ = Category.objects.get_or_create(name="Writing", description="Blog posts and articles")
 
 # Create Projects
