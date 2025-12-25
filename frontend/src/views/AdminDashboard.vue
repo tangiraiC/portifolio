@@ -46,6 +46,19 @@ const resourceConfig = {
        { key: 'pdf', label: 'PDF File', type: 'file' }
      ]
   },
+  blog: {
+    endpoint: 'blog',
+    title: 'Blog Posts',
+    fields: [
+      { key: 'title', label: 'Title', type: 'text' },
+      { key: 'slug', label: 'Slug (leave empty to auto-generate)', type: 'text' },
+      { key: 'hero_image', label: 'Hero Image', type: 'file' },
+      { key: 'body', label: 'Content (Markdown)', type: 'textarea' },
+      { key: 'tags_csv', label: 'Tags (CSV)', type: 'text' },
+      { key: 'is_published', label: 'Published?', type: 'checkbox' }
+    ]
+  },
+
   experience: {
     endpoint: 'experience',
     title: 'Experience',
@@ -251,12 +264,21 @@ onMounted(fetchItems)
               type="file"
               class="w-full p-2 rounded bg-gray-700 border border-gray-600 focus:border-primary-500 outline-none text-gray-300"
             />
+             <div v-else-if="field.type === 'checkbox'" class="flex items-center gap-3">
+                <input 
+                  type="checkbox" 
+                  v-model="formData[field.key]"
+                  class="w-5 h-5 rounded bg-gray-700 border border-gray-600 focus:ring-primary-500"
+                />
+                <span class="text-gray-300 text-sm">Yes</span>
+            </div>
             <input 
               v-else 
               v-model="formData[field.key]" 
               :type="field.type"
               class="w-full p-2 rounded bg-gray-700 border border-gray-600 focus:border-primary-500 outline-none"
             />
+
 
           </div>
 

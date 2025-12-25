@@ -2,10 +2,10 @@
 import { ref } from 'vue'
 
 const navigation = [
-  { name: 'Projects', href: '#projects' },
-  { name: 'Certifications', href: '#proof-area' },
-  { name: 'Publications', href: '#publications' },
-  { name: 'Blog', href: '#blog-list' },
+  { name: 'Projects', href: '/#projects' },
+  { name: 'Certifications', href: '/#proof-area' },
+  { name: 'Publications', href: '/#publications' },
+  { name: 'Blog', href: '/blog' },
 ]
 
 const mobileMenuOpen = ref(false)
