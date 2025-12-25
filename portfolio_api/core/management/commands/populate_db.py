@@ -10,20 +10,38 @@ class Command(BaseCommand):
         # 1. Categories
         categories = [
             ("Web Development", "Web apps and sites"),
-            ("AI and Machine Learning", "AI/ML Projects"),
-            ("Business and Data Analytics", "Data Viz and Business Logic"),
+            ("AI & Machine Learning", "AI/ML Projects"),  # Changed 'and' to '&'
+            ("Business & Data Analytics", "Data Viz and Business Logic"), # Changed 'and' to '&'
             ("Hackathons", "Hackathon Projects"),
             ("Writing", "Blog posts and articles"),
         ]
 
         cat_objs = {}
         for name, desc in categories:
+            # Safe Rename/Merge Logic
+            old_name = name.replace("&", "and") 
+            
+            # Only proceed if we are actually renaming something
+            if old_name != name and Category.objects.filter(name=old_name).exists():
+                # 1. Check if the "New Name" (target) ALSO exists
+                if Category.objects.filter(name=name).exists():
+                    # Both exist. Move projects from Old to New, then delete Old.
+                    old_cat = Category.objects.get(name=old_name)
+                    new_cat = Category.objects.get(name=name)
+                    Project.objects.filter(primary_category=old_cat).update(primary_category=new_cat)
+                    old_cat.delete()
+                    self.stdout.write(f'Merged category "{old_name}" into "{name}"')
+                else:
+                    # Only Old exists. Rename it.
+                    Category.objects.filter(name=old_name).update(name=name)
+                    self.stdout.write(f'Renamed category "{old_name}" to "{name}"')
+
             cat, created = Category.objects.get_or_create(name=name, defaults={"description": desc})
             cat_objs[name] = cat
             if created:
                 self.stdout.write(self.style.SUCCESS(f'Created Category: {name}'))
             else:
-                self.stdout.write(f'Category already exists: {name}')
+                self.stdout.write(f'Category confirmed: {name}')
 
         # 2. Projects
         # Neural Agent (The Shona Request)
@@ -43,7 +61,7 @@ class NeuralAgent(nn.Module):
             title="Neural Agent Optimization",
             defaults={
                 "slug": "neural-agent-optimization",
-                "primary_category": cat_objs["Business and Data Analytics"],
+                "primary_category": cat_objs["Business & Data Analytics"],
                 "status": "completed",
                 "tags_csv": "Python, PyTorch, LSTM, Transformer",
                 "tech_stack_csv": "Python, PyTorch",
@@ -78,7 +96,7 @@ class NeuralAgent(nn.Module):
             title="AI Image Classifier",
             defaults={
                 "slug": "ai-image-classifier",
-                "primary_category": cat_objs["AI and Machine Learning"],
+                "primary_category": cat_objs["AI & Machine Learning"],
                 "status": "completed",
                 "tags_csv": "PyTorch, React, API",
                 "tech_stack_csv": "Python, PyTorch, React, FastAPI",

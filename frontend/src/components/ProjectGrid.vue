@@ -6,7 +6,7 @@ const projects = ref([])
 const loading = ref(true)
 const selectedFilter = ref('All')
 
-const filters = ['All', 'Web Development', 'Business and Data Analytics', 'AI and Machine Learning', 'Hackathons']
+const filters = ['All', 'Web Development', 'Business & Data Analytics', 'AI & Machine Learning', 'Hackathons']
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
 

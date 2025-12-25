@@ -1,14 +1,36 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 
-const navigation = [
+const navigation = ref([
   { name: 'Projects', href: '/#projects' },
   { name: 'Certifications', href: '/#proof-area' },
   { name: 'Publications', href: '/#publications' },
   { name: 'Blog', href: '/blog' },
-]
+])
 
+const resumeUrl = ref(null)
 const mobileMenuOpen = ref(false)
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+
+onMounted(async () => {
+  try {
+    const response = await axios.get(`${API_URL}/site-settings/`)
+    const settings = Array.isArray(response.data.results) ? response.data.results[0] : response.data[0]
+    
+    if (settings) {
+       // Prefer uploaded file, fallback to external link
+       const url = settings.resume_file || settings.resume_link
+       if (url) {
+           resumeUrl.value = url
+           // Add to navigation
+           navigation.value.push({ name: 'Resume', href: url, target: '_blank' })
+       }
+    }
+  } catch (error) {
+    console.error('Error fetching settings for nav:', error)
+  }
+})
 </script>
 
 <template>
@@ -28,7 +50,7 @@ const mobileMenuOpen = ref(false)
         </button>
       </div>
       <div class="hidden lg:flex lg:gap-x-12">
-        <a v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-semibold leading-6 text-gray-300 hover:text-white transition-colors">
+        <a v-for="item in navigation" :key="item.name" :href="item.href" :target="item.target || '_self'" class="text-sm font-semibold leading-6 text-gray-300 hover:text-white transition-colors">
           {{ item.name }}
         </a>
       </div>
@@ -62,7 +84,7 @@ const mobileMenuOpen = ref(false)
           </div>
           
           <div class="flex flex-col space-y-8 text-center w-full max-w-sm">
-              <a v-for="item in navigation" :key="item.name" :href="item.href" @click="mobileMenuOpen = false" class="text-2xl font-bold leading-7 text-white hover:text-blue-400 transition-colors block py-2 border-b border-gray-800">
+              <a v-for="item in navigation" :key="item.name" :href="item.href" :target="item.target || '_self'" @click="mobileMenuOpen = false" class="text-2xl font-bold leading-7 text-white hover:text-blue-400 transition-colors block py-2 border-b border-gray-800">
                 {{ item.name }}
               </a>
               <div class="pt-8">

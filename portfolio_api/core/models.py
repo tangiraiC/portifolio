@@ -189,6 +189,7 @@ class Skill(TimeStampedModel):
 
 class SiteSetting(TimeStampedModel):
     about_me = models.TextField(blank=True, help_text="Markdown content for About Me section")
+    resume_file = models.FileField(upload_to='resumes/', blank=True, null=True, help_text="Upload PDF resume (overrides external link)")
     resume_link = models.URLField(blank=True, help_text="External link to resume if not hosted here")
     contact_email = models.EmailField(blank=True)
     github_url = models.URLField(blank=True)

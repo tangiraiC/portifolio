@@ -96,7 +96,8 @@ const resourceConfig = {
     isSingleton: true,
     fields: [
       { key: 'about_me', label: 'About Me', type: 'textarea' },
-      { key: 'resume_link', label: 'Resume Link', type: 'url' },
+      { key: 'resume_file', label: 'Resume PDF (Upload)', type: 'file' },
+      { key: 'resume_link', label: 'Resume Link (External as fallback)', type: 'url' },
       { key: 'contact_email', label: 'Contact Email', type: 'email' },
       { key: 'github_url', label: 'GitHub URL', type: 'url' },
       { key: 'linkedin_url', label: 'LinkedIn URL', type: 'url' }
