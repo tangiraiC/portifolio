@@ -107,4 +107,91 @@ class NeuralAgent(nn.Module):
         )
         self.stdout.write(self.style.SUCCESS('Created/Updated Project: AI Image Classifier'))
 
-        self.stdout.write(self.style.SUCCESS('Data population complete!'))
+        # FIFA Wage Analysis
+        Project.objects.update_or_create(
+            title="FIFA Wage Analysis",
+            defaults={
+                "slug": "fifa-wage-analysis",
+                "primary_category": cat_objs["Business & Data Analytics"],
+                "status": "completed",
+                "tags_csv": "Data Analysis, Statistics, Hypothesis Testing",
+                "tech_stack_csv": "R, Python, Pandas, SciPy", 
+                "abstract": "Statistical analysis of wage differences between Brazilian and Spanish FIFA substitutes.",
+                "description": """
+### Overview
+This project analyzes wage disparities between Brazilian and Spanish soccer players categorized as substitutes. 
+
+**Key Findings:**
+- Checked assumption of equal variances (Variance Test).
+- Performed T-Test (alpha 0.05).
+- Investigated if nationality influences compensation for substitute players.
+                """,
+                "repo_url": "https://github.com/tangiraiC/Analysis-of-Wage-Differences-Among-Brazilian-and-Spanish-FIFA-Substitutes",
+                "start_date": date(2023, 6, 1)
+            }
+        )
+        self.stdout.write(self.style.SUCCESS('Created/Updated Project: FIFA Analysis'))
+
+        # SmartDine
+        Project.objects.update_or_create(
+            title="SmartDine",
+            defaults={
+                "slug": "smartdine",
+                "primary_category": cat_objs["AI & Machine Learning"], # It's a recommender system
+                "status": "completed",
+                "tags_csv": "Recommender Systems, Multimodal AI, React, Django",
+                "tech_stack_csv": "Python, Django, React, PyTorch, NLTK",
+                "abstract": "A multimodal restaurant recommender system using text, image, and dense feature fusion.",
+                "description": """
+### Features
+- **Multimodal Embeddings**: Fuses text, image, and dense features.
+- **Algorithms**: Matrix Factorization, Neural Collaborative Filtering, Late Fusion, Joint Embedding.
+- **Architecture**: Django REST API serving a React frontend.
+- **Real-time**: Precomputed item-level caches for efficient serving.
+                """,
+                "repo_url": "https://github.com/tangiraiC/smartdine",
+                "start_date": date(2025, 1, 1) # Based on citation year
+            }
+        )
+        self.stdout.write(self.style.SUCCESS('Created/Updated Project: SmartDine'))
+
+        # Resume Optimizer
+        Project.objects.update_or_create(
+            title="Resume Optimizer",
+            defaults={
+                "slug": "resume-optimizer",
+                "primary_category": cat_objs["Web Development"], 
+                "status": "completed",
+                "tags_csv": "Flask, NLP, Career Tools",
+                "tech_stack_csv": "Python, Flask, HTML/CSS, PDF Generation",
+                "abstract": "Flask-based web application for resume optimization and ATS-friendly formatting.",
+                "description": """
+### Overview
+A web tool to help job seekers optimize their resumes.
+
+**Features:**
+- Resume optimization logic.
+- HTML and PDF generation.
+- ATS-friendly formatting standards.
+                """,
+                "repo_url": "https://github.com/tangiraiC/resume-optimizer",
+                "start_date": date(2023, 11, 1)
+            }
+        )
+        self.stdout.write(self.style.SUCCESS('Created/Updated Project: Resume Optimizer'))
+
+        # The FlexForce API
+        Project.objects.update_or_create(
+            title="The FlexForce API",
+            defaults={
+                "slug": "theflexforceapi",
+                "primary_category": cat_objs["Web Development"],
+                "status": "completed",
+                "tags_csv": "API, Backend, Gig Economy",
+                "tech_stack_csv": "Django, Django REST Framework, PostgreSQL",
+                "abstract": "Backend API for the FlexForce gig economy platform.",
+                "repo_url": "https://github.com/tangiraiC/theflexforceapi", # Note: Link was 404, kept as provided
+                "start_date": date(2023, 9, 20)
+            }
+        )
+        self.stdout.write(self.style.SUCCESS('Created/Updated Project: FlexForce API'))

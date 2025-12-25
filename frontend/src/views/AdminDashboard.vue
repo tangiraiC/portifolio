@@ -102,6 +102,17 @@ const resourceConfig = {
       { key: 'github_url', label: 'GitHub URL', type: 'url' },
       { key: 'linkedin_url', label: 'LinkedIn URL', type: 'url' }
     ]
+  },
+  certifications: {
+     endpoint: 'certifications',
+     title: 'Certifications',
+     fields: [
+       { key: 'name', label: 'Certification Name', type: 'text' },
+       { key: 'issuing_organization', label: 'Issuing Org', type: 'text' },
+       { key: 'issue_date', label: 'Date Issued', type: 'date' },
+       { key: 'credential_url', label: 'Credential URL', type: 'url' },
+       { key: 'image', label: 'Certificate Image/Logo', type: 'file' }
+     ]
   }
 }
 

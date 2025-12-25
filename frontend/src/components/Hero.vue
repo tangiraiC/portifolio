@@ -11,8 +11,8 @@
         Full-Stack Data Scientist
       </h1>
       
-      <p class="mt-4 text-xl leading-8 text-gray-400 font-medium tracking-wide">
-        AI Agents • Computer Vision • Predictive Analytics
+      <p class="mt-6 text-lg leading-8 text-gray-300 font-mono-code typewriter animate-fade-in-up">
+        AI Agents • Computer Vision • Predictive Analytics • Business Analytics
       </p>
       
       <p class="mt-6 text-lg leading-8 text-gray-400 max-w-2xl mx-auto">
