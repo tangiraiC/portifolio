@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
-import config from '../config'
 
 const projects = ref([])
 const loading = ref(true)
@@ -9,12 +8,12 @@ const selectedFilter = ref('All')
 
 const filters = ['All', 'Web Development', 'Business and Data Analytics', 'AI and Machine Learning', 'Hackathons']
 
-const API_URL = config.PROJECTS
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
 
 onMounted(async () => {
     try {
-        const response = await axios.get(API_URL)
-        projects.value = response.data.results
+        const response = await axios.get(`${API_URL}/projects/`)
+        projects.value = response.data.results || response.data
     } catch (error) {
         console.error('Error fetching projects:', error)
     } finally {
@@ -25,11 +24,8 @@ onMounted(async () => {
 const filteredProjects = computed(() => {
     if (selectedFilter.value === 'All') return projects.value
     
-    // Handle specific mappings or just string matching
-    if (selectedFilter.value === 'Business and Data Analytics') {
-         return projects.value.filter(p => p.category_name.includes('Business') || p.category_name.includes('Data'))
-    }
-    
+    // Simple frontend filtering based on category name
+    // Assuming backend returns category_name in serializer
     return projects.value.filter(p => p.category_name === selectedFilter.value)
 })
 </script>
@@ -64,9 +60,10 @@ const filteredProjects = computed(() => {
           
           <!-- Image Container (16:9) -->
           <div class="relative w-full aspect-video bg-gray-800 overflow-hidden group">
+             <!-- Check if cover_image exists -->
              <img v-if="project.cover_image" :src="project.cover_image" :alt="project.title" class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
              <div v-else class="absolute inset-0 h-full w-full bg-gray-900 flex items-center justify-center text-gray-600 font-mono">
-                 ./no_image.png
+                 No Image
              </div>
              
              <!-- Badge Overlay -->
@@ -80,12 +77,12 @@ const filteredProjects = computed(() => {
               {{ project.title }}
             </h3>
             
-            <p class="mt-4 text-base leading-7 text-gray-400">
+            <p class="mt-4 text-base leading-7 text-gray-400 line-clamp-3">
                 {{ project.abstract }}
             </p>
             
             <div class="mt-6 flex flex-wrap gap-3">
-              <span v-for="tag in project.tech_stack_csv.split(',')" :key="tag" class="text-xs font-mono-code text-blue-300 bg-blue-900/30 px-3 py-1 rounded border border-blue-500/20">
+              <span v-for="tag in (project.tech_stack_csv || '').split(',')" :key="tag" class="text-xs font-mono-code text-blue-300 bg-blue-900/30 px-3 py-1 rounded border border-blue-500/20">
                   {{ tag.trim() }}
               </span>
             </div>
@@ -93,17 +90,17 @@ const filteredProjects = computed(() => {
             <div class="w-full h-px bg-white/10 my-6"></div>
 
             <div class="flex gap-4">
-                <a v-if="project.repo_url" :href="project.repo_url" target="_blank" class="flex-1 text-center btn-secondary text-sm">
+                <a v-if="project.repo_url" :href="project.repo_url" target="_blank" class="flex-1 text-center btn-secondary text-sm py-2 rounded bg-gray-700 hover:bg-gray-600 transition">
                    GitHub
                 </a>
-                <a v-if="project.demo_url" :href="project.demo_url" target="_blank" class="flex-1 text-center btn-primary text-sm">
+                <a v-if="project.demo_url" :href="project.demo_url" target="_blank" class="flex-1 text-center btn-primary text-sm py-2 rounded bg-primary-600 hover:bg-primary-500 transition text-white">
                    Try Live Demo
                 </a>
             </div>
           </div>
         </article>
       </div>
-        <div v-if="!loading && filteredProjects.length === 0" class="text-center text-gray-500 italic mt-10">Lincoln has not published anything yet</div>
+        <div v-if="!loading && filteredProjects.length === 0" class="text-center text-gray-500 italic mt-10">No projects found for this category.</div>
         <div v-if="loading" class="text-center text-gray-400 mt-10 font-mono-code">Loading projects...</div>
     </div>
   </div>

@@ -1,16 +1,15 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import config from '../config'
 
 const papers = ref([])
 const loading = ref(true)
-const API_URL = config.PUBLICATIONS
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
 
 onMounted(async () => {
     try {
-        const response = await axios.get(API_URL)
-        papers.value = response.data.results
+        const response = await axios.get(`${API_URL}/research/`)
+        papers.value = response.data.results || response.data
     } catch (error) {
         console.error('Error fetching research papers:', error)
     } finally {
@@ -44,7 +43,7 @@ onMounted(async () => {
                 <span class="inline-flex items-center rounded-md bg-purple-400/10 px-2 py-1 text-xs font-medium text-purple-400 ring-1 ring-inset ring-purple-400/20">
                     Publication
                 </span>
-                <time :datetime="paper.published_at" class="text-sm text-gray-500 font-mono-code">
+                <time v-if="paper.published_at" :datetime="paper.published_at" class="text-sm text-gray-500 font-mono-code">
                     {{ new Date(paper.published_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long' }) }}
                 </time>
               </div>
@@ -82,7 +81,7 @@ onMounted(async () => {
         </div>
         
         <div v-if="!loading && papers.length === 0" class="text-center py-12">
-            <p class="text-gray-500 italic">Lincoln has not published anything yet</p>
+            <p class="text-gray-500 italic">No publications yet.</p>
         </div>
       </div>
     </div>
