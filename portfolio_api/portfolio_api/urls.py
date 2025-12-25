@@ -20,10 +20,19 @@ from django.urls import path
 from django.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework.authtoken import views
+
+
+from core.views import RegisterView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("api/login/", views.obtain_auth_token),
+    path("api/register/", RegisterView.as_view(), name='register'),
     path("api/", include("core.api")) #include our app router
+
+
+
 ]
 
 if settings.DEBUG:

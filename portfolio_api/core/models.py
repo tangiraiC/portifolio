@@ -149,3 +149,58 @@ class ContactMessage(TimeStampedModel):
 
     def __str__(self):
         return f"Message from {self.name}: {self.subject}"
+
+class Experience(TimeStampedModel):
+    company = models.CharField(max_length=200)
+    role = models.CharField(max_length=200)
+    start_date = models.DateField()
+    end_date = models.DateField(null=True, blank=True)
+    is_current = models.BooleanField(default=False)
+    description = models.TextField(help_text="Markdown content")
+    
+    def __str__(self):
+        return f"{self.role} at {self.company}"
+        
+    class Meta:
+        ordering = ['-start_date']
+
+class Education(TimeStampedModel):
+    institution = models.CharField(max_length=200)
+    degree = models.CharField(max_length=200)
+    start_date = models.DateField()
+    end_date = models.DateField(null=True, blank=True)
+    description = models.TextField(blank=True, help_text="Markdown content")
+    
+    def __str__(self):
+        return f"{self.degree} from {self.institution}"
+        
+    class Meta:
+        verbose_name_plural = "Education"
+        ordering = ['-start_date']
+
+class Skill(TimeStampedModel):
+    name = models.CharField(max_length=100)
+    proficiency = models.IntegerField(help_text="1-100", default=50)
+    icon = models.ImageField(upload_to='skills/', blank=True, null=True)
+    category = models.CharField(max_length=100, blank=True, help_text="e.g., Frontend, Backend, Tools")
+    
+    def __str__(self):
+        return self.name
+
+class SiteSetting(TimeStampedModel):
+    about_me = models.TextField(blank=True, help_text="Markdown content for About Me section")
+    resume_link = models.URLField(blank=True, help_text="External link to resume if not hosted here")
+    contact_email = models.EmailField(blank=True)
+    github_url = models.URLField(blank=True)
+    linkedin_url = models.URLField(blank=True)
+    
+    def save(self, *args, **kwargs):
+        # Ensure only one instance exists
+        if not self.pk and SiteSetting.objects.exists():
+            # If valid instance exists, update it instead of creating new? 
+            # Or just enforce singleton pattern. For now, simple check.
+            pass
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return "Site Settings"

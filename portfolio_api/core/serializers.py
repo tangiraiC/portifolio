@@ -1,5 +1,11 @@
 from rest_framework import serializers
-from .models import Category, Project, ResearchPaper, BlogPost, Resume, Certification, ContactMessage
+from django.contrib.auth.models import User
+from .models import (
+
+    Category, Project, ResearchPaper, BlogPost, Resume, Certification, ContactMessage,
+    Experience, Education, Skill, SiteSetting
+)
+
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -43,3 +49,38 @@ class ContactMessageSerializer(serializers.ModelSerializer):
         model = ContactMessage
         fields = ['id', 'name', 'email', 'subject', 'message', 'created_at']
         read_only_fields = ['created_at']
+
+class ExperienceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Experience
+        fields = '__all__'
+
+class EducationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Education
+        fields = '__all__'
+
+class SkillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Skill
+        fields = '__all__'
+
+class SiteSettingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SiteSetting
+        fields = '__all__'
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password']
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password']
+        )
+        return user
