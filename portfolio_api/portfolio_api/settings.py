@@ -105,11 +105,11 @@ WSGI_APPLICATION = "portfolio_api.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DB_NAME", "portifolio_fe2f"),
-        "USER": os.getenv("DB_USER", "postgres1"),
-        "PASSWORD": os.getenv("DB_PASSWORD", "yOTmYGO5acbTDqFZD8xGeM3PYyxNS4GE"),
-        "HOST": os.getenv("DB_HOST", "localhost"),
-        "PORT": os.getenv("DB_PORT", "5432"),
+        "NAME": os.getenv("DB_NAME"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_PASSWORD"),
+        "HOST": os.getenv("DB_HOST"),
+        "PORT": os.getenv("DB_PORT"),
     }
 }
 
