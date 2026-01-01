@@ -55,7 +55,7 @@ const filteredProjects = computed(() => {
           </button>
       </div>
 
-      <div class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 md:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+      <div class="mx-auto mt-16 grid grid-cols-1 gap-x-8 gap-y-20 sm:grid-cols-2 lg:grid-cols-3">
         <article v-for="project in filteredProjects" :key="project.id" class="flex flex-col items-start justify-between bg-cosmic-card rounded-xl overflow-hidden border border-white/5 hover:border-cosmic-accent/30 transition-all duration-300">
           
           <!-- Image Container (16:9) -->

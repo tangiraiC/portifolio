@@ -195,3 +195,30 @@ A web tool to help job seekers optimize their resumes.
             }
         )
         self.stdout.write(self.style.SUCCESS('Created/Updated Project: FlexForce API'))
+
+        # My Portfolio
+        Project.objects.update_or_create(
+            title="My Portfolio",
+            defaults={
+                "slug": "my-portfolio",
+                "primary_category": cat_objs["Web Development"],
+                "status": "completed",
+                "tags_csv": "Personal Brand, Full Stack, Interactive",
+                "tech_stack_csv": "Django, Vue.js, TailwindCSS, PostgreSQL",
+                "abstract": "The personal portfolio website you are currently viewing, featuring dynamic content management.",
+                "description": """
+### Overview
+A full-stack personal portfolio application designed to showcase projects, publications, and blogs.
+
+**Key Features:**
+- **Dynamic Content:** Custom Admin Dashboard for managing projects, certs, and blogs.
+- **Modern UI:** Built with Vue 3 and TailwindCSS using a 'Cosmic' theme.
+- **REST API:** Powered by Django REST Framework.
+- **Deployment:** Dockerized and ready for cloud deployment.
+                """,
+                "repo_url": "https://github.com/tangiraiC/portifolio",
+                "cover_image": "projects/my-portfolio/screenshot.png",
+                "start_date": date(2024, 1, 15)
+            }
+        )
+        self.stdout.write(self.style.SUCCESS('Created/Updated Project: My Portfolio'))
