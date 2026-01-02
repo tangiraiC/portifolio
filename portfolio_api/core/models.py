@@ -64,6 +64,21 @@ class Project(TimeStampedModel):
     def __str__(self):
         return self.title
 
+def project_gallery_path(instance, filename):
+    return f"projects/{instance.project.slug}/gallery/{filename}"
+
+class ProjectImage(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to=project_gallery_path)
+    caption = models.CharField(max_length=200, blank=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f"Image for {self.project.title}"
+
 def research_pdf_path(instance, filename):
     return f"research/{instance.slug}/{filename}"
 

@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
+import ProjectGalleryModal from './ProjectGalleryModal.vue'
 
 const projects = ref([])
 const loading = ref(true)
@@ -26,8 +27,17 @@ const filteredProjects = computed(() => {
     
     // Simple frontend filtering based on category name
     // Assuming backend returns category_name in serializer
+    // Assuming backend returns category_name in serializer
     return projects.value.filter(p => p.category_name === selectedFilter.value)
 })
+
+const selectedProject = ref(null)
+const isModalOpen = ref(false)
+
+const openProject = (project) => {
+    selectedProject.value = project
+    isModalOpen.value = true
+}
 </script>
 
 <template>
@@ -56,10 +66,15 @@ const filteredProjects = computed(() => {
       </div>
 
       <div class="mx-auto mt-16 grid grid-cols-1 gap-x-8 gap-y-20 sm:grid-cols-2 lg:grid-cols-3">
-        <article v-for="project in filteredProjects" :key="project.id" class="flex flex-col items-start justify-between bg-cosmic-card rounded-xl overflow-hidden border border-white/5 hover:border-cosmic-accent/30 transition-all duration-300">
+        <article 
+            v-for="project in filteredProjects" 
+            :key="project.id" 
+            @click="openProject(project)"
+            class="flex flex-col items-start justify-between bg-cosmic-card rounded-xl overflow-hidden border border-white/5 hover:border-cosmic-accent/30 transition-all duration-300 cursor-pointer group hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-900/20"
+        >
           
           <!-- Image Container (16:9) -->
-          <div class="relative w-full aspect-video bg-gray-800 overflow-hidden group">
+          <div class="relative w-full aspect-video bg-gray-800 overflow-hidden">
              <!-- Check if cover_image exists -->
              <img v-if="project.cover_image" :src="project.cover_image" :alt="project.title" class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
              <div v-else class="absolute inset-0 h-full w-full bg-gray-900 flex items-center justify-center text-gray-600 font-mono">
@@ -106,5 +121,13 @@ const filteredProjects = computed(() => {
         <div v-if="!loading && filteredProjects.length === 0" class="text-center text-gray-500 italic mt-10">No projects found for this category.</div>
         <div v-if="loading" class="text-center text-gray-400 mt-10 font-mono-code">Loading projects...</div>
     </div>
+
+    <!-- Gallery Modal -->
+    <ProjectGalleryModal 
+        v-if="selectedProject" 
+        :project="selectedProject" 
+        :isOpen="isModalOpen" 
+        @close="isModalOpen = false" 
+    />
   </div>
 </template>

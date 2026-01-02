@@ -23,12 +23,14 @@ from django.conf.urls.static import static
 from rest_framework.authtoken import views
 
 
-from core.views import RegisterView
+from core.views import RegisterView, CustomPasswordResetView, CustomPasswordResetConfirmView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/login/", views.obtain_auth_token),
     path("api/register/", RegisterView.as_view(), name='register'),
+    path("api/password-reset/", CustomPasswordResetView.as_view(), name='password_reset'),
+    path("api/password-reset/confirm/", CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path("api/", include("core.api")) #include our app router
 
 

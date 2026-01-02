@@ -5,6 +5,8 @@ import Register from '../views/Register.vue'
 import AdminDashboard from '../views/AdminDashboard.vue'
 import BlogList from '../views/BlogList.vue'
 import BlogPost from '../views/BlogPost.vue'
+import ForgotPassword from '../views/ForgotPassword.vue'
+import ResetPassword from '../views/ResetPassword.vue'
 
 const routes = [
     { path: '/', component: Home },
@@ -16,7 +18,9 @@ const routes = [
         meta: { requiresAuth: true }
     },
     { path: '/blog', component: BlogList },
-    { path: '/blog/:slug', component: BlogPost }
+    { path: '/blog/:slug', component: BlogPost },
+    { path: '/forgot-password', component: ForgotPassword },
+    { path: '/reset-password/:uid/:token', component: ResetPassword }
 ]
 
 const router = createRouter({

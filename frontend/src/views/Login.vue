@@ -44,6 +44,9 @@ const login = async () => {
         <div>
           <label class="block mb-1 text-sm text-gray-300">Password</label>
           <input v-model="password" type="password" class="w-full p-3 rounded-lg bg-gray-900/50 border border-gray-700 focus:border-primary-500 outline-none transition text-white placeholder-gray-500" placeholder="••••••••" required />
+          <div class="text-right mt-1">
+            <router-link to="/forgot-password" class="text-xs text-primary-400 hover:text-primary-300 transition">Forgot Password?</router-link>
+          </div>
         </div>
         <div v-if="error" class="text-red-400 text-sm text-center bg-red-900/20 p-2 rounded">{{ error }}</div>
         <button type="submit" class="w-full bg-gradient-to-r from-primary-600 to-purple-600 hover:from-primary-500 hover:to-purple-500 text-white font-bold py-3 px-4 rounded-lg transition shadow-lg shadow-primary-500/20">

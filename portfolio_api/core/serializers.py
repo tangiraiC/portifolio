@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from .models import (
 
     Category, Project, ResearchPaper, BlogPost, Resume, Certification, ContactMessage,
-    Experience, Education, Skill, SiteSetting
+    Experience, Education, Skill, SiteSetting, ProjectImage
 )
 
 
@@ -12,16 +12,23 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ['id', 'name', 'slug', 'description']
 
+class ProjectImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectImage
+        fields = ['id', 'image', 'caption', 'order']
+
 class ProjectSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(source='primary_category.name', read_only=True)
     category_slug = serializers.CharField(source='primary_category.slug', read_only=True)
+    images = ProjectImageSerializer(many=True, read_only=True)
     
     class Meta:
         model = Project
         fields = [
             'id', 'title', 'slug', 'primary_category', 'category_name', 'category_slug',
             'status', 'tags_csv', 'tech_stack_csv', 'highlights_csv',
-            'abstract', 'repo_url', 'demo_url', 'start_date', 'end_date', 'cover_image'
+            'abstract', 'repo_url', 'demo_url', 'start_date', 'end_date', 'cover_image',
+            'images'
         ]
 
 class ResearchPaperSerializer(serializers.ModelSerializer):
