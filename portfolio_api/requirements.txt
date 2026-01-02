@@ -8,3 +8,4 @@ python-dotenv
 whitenoise
 Pillow
 requests
+dj-database-url
