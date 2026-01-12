@@ -6,31 +6,12 @@ const navigation = ref([
   { name: 'Projects', href: '/#projects' },
   { name: 'Certifications', href: '/#proof-area' },
   { name: 'Publications', href: '/#publications' },
+  { name: 'Resume', href: '/resume' },
   { name: 'Blog', href: '/blog' },
 ])
 
-const resumeUrl = ref(null)
 const mobileMenuOpen = ref(false)
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
-
-onMounted(async () => {
-  try {
-    const response = await axios.get(`${API_URL}/site-settings/`)
-    const settings = Array.isArray(response.data.results) ? response.data.results[0] : response.data[0]
-    
-    if (settings) {
-       // Prefer uploaded file, fallback to external link
-       const url = settings.resume_file || settings.resume_link
-       if (url) {
-           resumeUrl.value = url
-           // Add to navigation
-           navigation.value.push({ name: 'Resume', href: url, target: '_blank' })
-       }
-    }
-  } catch (error) {
-    console.error('Error fetching settings for nav:', error)
-  }
-})
+// Logic for dynamic resume fetching removed as we now have a dedicated page
 </script>
 
 <template>

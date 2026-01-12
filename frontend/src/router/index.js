@@ -7,6 +7,7 @@ import BlogList from '../views/BlogList.vue'
 import BlogPost from '../views/BlogPost.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import ResetPassword from '../views/ResetPassword.vue'
+import ResumeView from '../views/ResumeView.vue'
 
 const routes = [
     { path: '/', component: Home },
@@ -20,7 +21,8 @@ const routes = [
     { path: '/blog', component: BlogList },
     { path: '/blog/:slug', component: BlogPost },
     { path: '/forgot-password', component: ForgotPassword },
-    { path: '/reset-password/:uid/:token', component: ResetPassword }
+    { path: '/reset-password/:uid/:token', component: ResetPassword },
+    { path: '/resume', component: ResumeView }
 ]
 
 const router = createRouter({
