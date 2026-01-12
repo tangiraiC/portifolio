@@ -10,6 +10,7 @@
     "start": "serve -s dist -l 10000"
   },
   "dependencies": {
+    "@heroicons/vue": "^2.2.0",
     "axios": "^1.13.2",
     "marked": "^17.0.1",
     "vue": "^3.5.24",
