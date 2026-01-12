@@ -1,1 +1,1 @@
-web: gunicorn portfolio_api.wsgi:application --log-file -
+web: python create_admin.py && gunicorn portfolio_api.wsgi:application --log-file -
