@@ -10,7 +10,9 @@ const showModal = ref(false)
 const editingItem = ref(null)
 const formData = ref({})
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+import config from '../config'
+const API_URL = config.API_URL
+
 const token = localStorage.getItem('token')
 
 const headers = {

@@ -8,7 +8,10 @@ const password = ref('')
 const error = ref('')
 const router = useRouter()
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+import config from '../config'
+
+const API_URL = config.API_URL
+
 
 const login = async () => {
   try {

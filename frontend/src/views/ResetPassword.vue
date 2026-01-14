@@ -10,7 +10,10 @@ const message = ref('')
 const error = ref('')
 const loading = ref(false)
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+import config from '../config'
+
+const API_URL = config.API_URL
+
 
 const submit = async () => {
     if (password.value !== confirmPassword.value) {
