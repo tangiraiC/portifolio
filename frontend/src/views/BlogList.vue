@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import NavBar from '../components/NavBar.vue'
 
 const posts = ref([])
 const loading = ref(true)
@@ -20,6 +21,7 @@ onMounted(async () => {
 
 <template>
   <div class="py-24 sm:py-32 bg-cosmic-bg min-h-screen">
+    <NavBar />
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <div class="mx-auto max-w-2xl text-center mb-16">
         <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-blue-500">

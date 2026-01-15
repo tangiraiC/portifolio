@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
 import { marked } from 'marked' // We need to install this if not present, checking package.json next
+import NavBar from '../components/NavBar.vue'
 
 const route = useRoute()
 const post = ref(null)
@@ -41,6 +42,7 @@ onMounted(async () => {
 
 <template>
   <div class="py-24 sm:py-32 bg-cosmic-bg min-h-screen">
+    <NavBar />
     <div class="mx-auto max-w-3xl px-6 lg:px-8">
       
       <div v-if="loading" class="text-center py-20 text-gray-400">Loading Article...</div>
