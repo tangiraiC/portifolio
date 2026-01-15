@@ -39,6 +39,19 @@ urlpatterns = [
 
 ]
 
+from django.urls import re_path
+from django.views.static import serve
+
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+else:
+    # Force serve media files (uploads) in production
+    # Note: On Render free tier/ephemeral disks, uploads persist only until restart.
+    # This is fine for seeded data or if re-uploaded.
+    urlpatterns += [
+        re_path(r'^media/(?P<path>.*)$', serve, {
+            'document_root': settings.MEDIA_ROOT,
+        }),
+    ]
+
