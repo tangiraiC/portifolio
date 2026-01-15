@@ -3,10 +3,13 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import NavBar from '../components/NavBar.vue'
 
+import config from '../config'
+
 const resumeUrl = ref(null)
 const loading = ref(true)
 const error = ref(null)
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+const API_URL = config.API_URL
+
 
 onMounted(async () => {
     loading.value = true

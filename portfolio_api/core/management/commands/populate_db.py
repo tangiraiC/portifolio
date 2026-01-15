@@ -10,10 +10,9 @@ class Command(BaseCommand):
         # 1. Categories
         categories = [
             ("Web Development", "Web apps and sites"),
-            ("AI & Machine Learning", "AI/ML Projects"),  # Changed 'and' to '&'
-            ("Business & Data Analytics", "Data Viz and Business Logic"), # Changed 'and' to '&'
+            ("Business & Data Analytics", "Data Viz and Business Logic"),
+            ("AI & Machine Learning", "AI/ML Projects"),
             ("Hackathons", "Hackathon Projects"),
-            ("Writing", "Blog posts and articles"),
         ]
 
         cat_objs = {}
