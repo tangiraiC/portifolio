@@ -20,6 +20,7 @@ from django.urls import path
 from django.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.http import HttpResponse
 from rest_framework.authtoken import views
 
 
@@ -31,7 +32,8 @@ urlpatterns = [
     path("api/register/", RegisterView.as_view(), name='register'),
     path("api/password-reset/", CustomPasswordResetView.as_view(), name='password_reset'),
     path("api/password-reset/confirm/", CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-    path("api/", include("core.api")) #include our app router
+    path("api/", include("core.api")), #include our app router
+    path("", lambda request: HttpResponse('{"status": "ok"}', content_type="application/json")), # Health check
 
 
 
