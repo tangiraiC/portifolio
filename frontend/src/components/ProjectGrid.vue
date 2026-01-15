@@ -14,16 +14,30 @@ import config from '../config'
 const API_URL = config.API_URL
 
 
+const error = ref(null)
+
 onMounted(async () => {
     try {
+        // Debug logging
+        console.log(`Attempting to fetch projects from: ${API_URL}/projects/`)
+        
         const response = await axios.get(`${API_URL}/projects/`)
         projects.value = response.data.results || response.data
-    } catch (error) {
-        console.error('Error fetching projects:', error)
+        
+        if (projects.value.length === 0) {
+            console.warn("API returned 0 projects.")
+        }
+    } catch (err) {
+        console.error('Error fetching projects:', err)
+        error.value = `Failed to load projects. URL: ${API_URL}/projects/. Error: ${err.message}`
+        if (err.response) {
+            error.value += ` (Status: ${err.response.status})`
+        }
     } finally {
         loading.value = false
     }
 })
+
 
 const filteredProjects = computed(() => {
     if (selectedFilter.value === 'All') return projects.value
@@ -121,8 +135,17 @@ const openProject = (project) => {
           </div>
         </article>
       </div>
-        <div v-if="!loading && filteredProjects.length === 0" class="text-center text-gray-500 italic mt-10">No projects found for this category.</div>
-        <div v-if="loading" class="text-center text-gray-400 mt-10 font-mono-code">Loading projects...</div>
+    <div v-if="error" class="mx-auto max-w-2xl mt-8 p-4 bg-red-900/50 border border-red-500 rounded text-red-200 text-center">
+        <p class="font-bold">System Error</p>
+        <p class="text-sm font-mono mt-2">{{ error }}</p>
+        <p class="text-xs mt-2">Please verify your VITE_API_URL setting.</p>
+    </div>
+
+    <div v-if="loading" class="text-center text-gray-400 mt-10 font-mono-code">
+        Loading projects from {{ API_URL }}...
+    </div>
+    
+    <div v-if="!loading && !error && filteredProjects.length === 0" class="text-center text-gray-500 italic mt-10">No projects found for this category ({{ selectedFilter }}).</div>
     </div>
 
     <!-- Gallery Modal -->
