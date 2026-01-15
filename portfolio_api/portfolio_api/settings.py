@@ -86,7 +86,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # "django.middleware.clickjacking.XFrameOptionsMiddleware", # Disable to allow iframe embedding of PDF from different frontend domain
 ]
 
 ROOT_URLCONF = "portfolio_api.urls"
@@ -196,12 +196,23 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # cors for local vue dev
 CORS_ALLOW_ALL_ORIGINS = os.getenv("CORS_ALLOW_ALL_ORIGINS", "False") == "True"
 
-# Security settings for production
 if RENDER_EXTERNAL_HOSTNAME:
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    
+    # Allow iframe embedding for Resume PDF (Cross-Origin)
+    # Ideally should be 'ALLOW-FROM ...' but that is deprecated/not supported by all.
+    # For a portfolio, simply disabling frame protection for the API/Media is acceptable,
+    # or relying on modern browsers ignoring X-Frame-Options if CSP is present.
+    # For simplicity, we fallback to SAMEORIGIN but since domains differ, we might need to rely on 'Download' button
+    # OR set X_FRAME_OPTIONS to allow everything.
+    X_FRAME_OPTIONS = 'y' # Effectively invalid value treated as no-op by some, or just REMOVE the middleware.
+    # Better approach:
+    # We will just disable the header for now to ensure PDF displays.
+    X_FRAME_OPTIONS = 'SAMEORIGIN' 
+
 
 # Email Configuration
 EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
