@@ -36,7 +36,7 @@ const mobileMenuOpen = ref(false)
         </a>
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <a href="#contact" class="btn-primary text-sm">
+        <a href="/#contact" class="btn-primary text-sm">
             Contact
         </a>
       </div>
