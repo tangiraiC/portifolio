@@ -2,11 +2,26 @@ from core.models import Project, Category, BlogPost
 from datetime import date
 
 # Create Categories
-web_dev, _ = Category.objects.get_or_create(name="Web Development", description="Web apps and sites")
-ai_ml, _ = Category.objects.get_or_create(name="AI and Machine Learning", description="AI/ML Projects")
-business, _ = Category.objects.get_or_create(name="Business and Data Analytics", description="Data Viz and Business Logic")
-hack, _ = Category.objects.get_or_create(name="Hackathons", description="Hackathon Projects")
-writing, _ = Category.objects.get_or_create(name="Writing", description="Blog posts and articles")
+web_dev, _ = Category.objects.get_or_create(
+    name="Web Development", 
+    defaults={"description": "Web apps and sites"}
+)
+ai_ml, _ = Category.objects.get_or_create(
+    name="AI and Machine Learning", 
+    defaults={"description": "AI/ML Projects"}
+)
+business, _ = Category.objects.get_or_create(
+    name="Business & Data Analytics", 
+    defaults={"description": "Data Viz and Business Logic"}
+)
+hack, _ = Category.objects.get_or_create(
+    name="Hackathons", 
+    defaults={"description": "Hackathon Projects"}
+)
+writing, _ = Category.objects.get_or_create(
+    name="Writing", 
+    defaults={"description": "Blog posts and articles"}
+)
 
 # Create Projects
 p1, _ = Project.objects.get_or_create(
@@ -41,9 +56,10 @@ b1, _ = BlogPost.objects.get_or_create(
     title="The Future of AI in Web Dev",
     defaults={
         "slug": "future-ai-web-dev",
-        "body_md": "AI is changing how we build websites. From coding assistants to automated testing...",
+        "body": "AI is changing how we build websites. From coding assistants to automated testing...",
         "tags_csv": "AI, WebDev, Future",
-        "published_at": date(2024, 3, 15)
+        "published_at": date(2024, 3, 15),
+        "is_published": True
     }
 )
 
@@ -51,9 +67,10 @@ b2, _ = BlogPost.objects.get_or_create(
     title="Mastering Django Rest Framework",
     defaults={
         "slug": "mastering-drf",
-        "body_md": "Django Rest Framework is a powerful toolkit for building Web APIs. In this guide...",
+        "body": "Django Rest Framework is a powerful toolkit for building Web APIs. In this guide...",
         "tags_csv": "Django, API, Python",
-        "published_at": date(2024, 2, 20)
+        "published_at": date(2024, 2, 20),
+        "is_published": True
     }
 )
 
