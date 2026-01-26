@@ -14,7 +14,7 @@
                    I’m <span class="text-white font-bold">Lincoln T Chanakira</span>, a passionate Full Stack Developer and Data Scientist with a unique story that spans continents and industries. Born and raised in Mhondoro, Zimbabwe, I cultivated a curiosity for technology and problem-solving from a young age, serving as Head Boy at both Nyatsambo Primary and Ndarama High School.
                </p>
                <p>
-                   Driven by a desire to bridge business and technology, I pursued a Bachelor’s in Business Studies and Computer Science at the University of Zimbabwe. I am currently working toward a <span class="text-white">Master’s in Analytics at the Kogod School of Business</span>, American University.
+                   Driven by a desire to bridge business and technology, I pursued a Bachelor’s in Business Studies and Computer Science at the University of Zimbabwe. I am currently working toward a <span class="text-white">Master’s in Business Analytics and Artificial Intelligence at the Kogod School of Business</span>, American University.
                </p>
            </div>
            
