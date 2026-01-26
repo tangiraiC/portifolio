@@ -21,6 +21,22 @@ onMounted(async () => {
         console.error('Error fetching data:', error)
     }
 })
+    const forceDownload = async (url, filename) => {
+        try {
+            const response = await axios.get(url, { responseType: 'blob' })
+            const blob = new Blob([response.data], { type: 'application/pdf' })
+            const link = document.createElement('a')
+            link.href = URL.createObjectURL(blob)
+            link.download = filename || 'Lincoln_Chanakira_Resume.pdf'
+            document.body.appendChild(link)
+            link.click()
+            document.body.removeChild(link)
+            URL.revokeObjectURL(link.href)
+        } catch (e) {
+            console.error("Download failed", e)
+            window.open(url, '_blank')
+        }
+    }
 </script>
 
 <template>
@@ -37,7 +53,7 @@ onMounted(async () => {
         </p>
         <div class="mt-8 flex justify-center">
              <div v-for="resume in resumes" :key="resume.id" class="m-2">
-                <a :href="resume.pdf" target="_blank" class="flex items-center gap-2 rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-white/20 transition-all border border-white/10">
+                <a :href="resume.pdf" @click.prevent="forceDownload(resume.pdf, `Lincoln_Chanakira_${resume.version || 'Resume'}.pdf`)" class="flex items-center gap-2 rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-white/20 transition-all border border-white/10 cursor-pointer">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     Download {{ resume.version || 'Resume' }}
                 </a>
