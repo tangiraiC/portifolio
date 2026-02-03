@@ -8,6 +8,8 @@ const navigation = ref([
   { name: 'Publications', href: '/#publications' },
   { name: 'Resume', href: '/resume' },
   { name: 'Blog', href: '/blog' },
+  { name: 'GitHub', href: 'https://github.com/tangiraiC', target: '_blank' },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/tangirai/', target: '_blank' },
 ])
 
 const mobileMenuOpen = ref(false)

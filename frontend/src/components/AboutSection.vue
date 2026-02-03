@@ -26,7 +26,7 @@
                    Now residing in Silver Spring, Maryland, I am eager to leverage my technical expertise and global perspective to solve complex problems. When I'm not coding, I'm a dedicated Manchester City fan and enjoy giving back through charity work with organizations like Amore Learning.
                </p>
                <p class="italic text-sm text-gray-500 mt-4 border-t border-white/10 pt-4">
-                   Fun fact: I once ran a successful sausage-making business in Zimbabwe—until I got scammed! Entrepreneurship is full of twists.
+                   Fun fact: I once ran a successful sausage-making business in Zimbabwe. It was a great introduction to entrepreneurship.
                </p>
            </div>
         </div>
