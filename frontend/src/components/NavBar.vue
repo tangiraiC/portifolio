@@ -8,8 +8,7 @@ const navigation = ref([
   { name: 'Publications', href: '/#publications' },
   { name: 'Resume', href: '/resume' },
   { name: 'Blog', href: '/blog' },
-  { name: 'GitHub', href: 'https://github.com/tangiraiC', target: '_blank' },
-  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/tangirai/', target: '_blank' },
+  { name: 'Contact', href: '/#contact' },
 ])
 
 const mobileMenuOpen = ref(false)
@@ -37,9 +36,14 @@ const mobileMenuOpen = ref(false)
           {{ item.name }}
         </a>
       </div>
-      <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <a href="/#contact" class="btn-primary text-sm">
-            Contact
+      <div class="hidden lg:flex lg:flex-1 lg:justify-end gap-4">
+        <a href="https://github.com/tangiraiC" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+          <span class="sr-only">GitHub</span>
+          <img src="/icons/github.png" alt="GitHub" class="h-6 w-6 rounded-md" />
+        </a>
+        <a href="https://www.linkedin.com/in/tangirai/" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+          <span class="sr-only">LinkedIn</span>
+          <img src="/icons/linkedin.png" alt="LinkedIn" class="h-6 w-6 rounded-md" />
         </a>
       </div>
     </nav>
@@ -70,8 +74,15 @@ const mobileMenuOpen = ref(false)
               <a v-for="item in navigation" :key="item.name" :href="item.href" :target="item.target || '_self'" @click="mobileMenuOpen = false" class="text-2xl font-bold leading-7 text-white hover:text-blue-400 transition-colors block py-2 border-b border-gray-800">
                 {{ item.name }}
               </a>
-              <div class="pt-8">
-                  <a href="#contact" @click="mobileMenuOpen = false" class="btn-primary inline-block text-xl px-10 py-4 w-full text-center shadow-lg shadow-blue-900/20">Contact Me</a>
+              <div class="pt-8 flex justify-center gap-8">
+                  <a href="https://github.com/tangiraiC" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                    <span class="sr-only">GitHub</span>
+                    <img src="/icons/github.png" alt="GitHub" class="h-8 w-8 rounded-md" />
+                  </a>
+                  <a href="https://www.linkedin.com/in/tangirai/" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                    <span class="sr-only">LinkedIn</span>
+                    <img src="/icons/linkedin.png" alt="LinkedIn" class="h-8 w-8 rounded-md" />
+                  </a>
               </div>
           </div>
         </div>
