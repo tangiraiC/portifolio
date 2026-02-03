@@ -25,7 +25,7 @@
             <span class="text-purple-400">class</span> <span class="text-yellow-200">NeuralAgent</span>(<span class="text-yellow-200">nn.Module</span>):<br>
             &nbsp;&nbsp;<span class="text-blue-400">def</span> <span class="text-green-400">__init__</span>(self, data):<br>
             &nbsp;&nbsp;&nbsp;&nbsp;self.architecture = [<span class="text-orange-300">"Transformer"</span>, <span class="text-orange-300">"LSTM"</span>]<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;self.objective = <span class="text-orange-300">"We are in the business of optimizing models"</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;self.objective = <span class="text-orange-300">"I am in the business of optimizing models"</span><br>
             &nbsp;&nbsp;<span class="text-blue-400">def</span> <span class="text-green-400">forward</span>(self, x):<br>
             &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> <span class="text-blue-400">predict_future</span>(x)
         </div>
