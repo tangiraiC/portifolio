@@ -39,11 +39,11 @@ const mobileMenuOpen = ref(false)
       <div class="hidden lg:flex lg:flex-1 lg:justify-end gap-4">
         <a href="https://github.com/tangiraiC" target="_blank" class="text-gray-400 hover:text-white transition-colors">
           <span class="sr-only">GitHub</span>
-          <img src="/icons/github.png" alt="GitHub" class="h-6 w-6 rounded-md" />
+          <img src="/icons/github.png" alt="GitHub" class="h-10 w-10 rounded-md" />
         </a>
         <a href="https://www.linkedin.com/in/tangirai/" target="_blank" class="text-gray-400 hover:text-white transition-colors">
           <span class="sr-only">LinkedIn</span>
-          <img src="/icons/linkedin.png" alt="LinkedIn" class="h-6 w-6 rounded-md" />
+          <img src="/icons/linkedin.png" alt="LinkedIn" class="h-10 w-10 rounded-md" />
         </a>
       </div>
     </nav>
@@ -77,11 +77,11 @@ const mobileMenuOpen = ref(false)
               <div class="pt-8 flex justify-center gap-8">
                   <a href="https://github.com/tangiraiC" target="_blank" class="text-gray-400 hover:text-white transition-colors">
                     <span class="sr-only">GitHub</span>
-                    <img src="/icons/github.png" alt="GitHub" class="h-8 w-8 rounded-md" />
+                    <img src="/icons/github.png" alt="GitHub" class="h-12 w-12 rounded-md" />
                   </a>
                   <a href="https://www.linkedin.com/in/tangirai/" target="_blank" class="text-gray-400 hover:text-white transition-colors">
                     <span class="sr-only">LinkedIn</span>
-                    <img src="/icons/linkedin.png" alt="LinkedIn" class="h-8 w-8 rounded-md" />
+                    <img src="/icons/linkedin.png" alt="LinkedIn" class="h-12 w-12 rounded-md" />
                   </a>
               </div>
           </div>
