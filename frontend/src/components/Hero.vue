@@ -35,7 +35,7 @@
         <a href="#projects" class="btn-primary">
           View Work
         </a>
-        <a href="/resume" class="btn-secondary">
+        <a href="/resume" class="btn-primary">
           Resume
         </a>
       </div>
