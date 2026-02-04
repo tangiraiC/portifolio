@@ -2,15 +2,16 @@ from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import (
     Category, Project, ResearchPaper, BlogPost, Resume, Certification, ContactMessage,
-    Experience, Education, Skill, SiteSetting
+    Experience, Education, Skill, SiteSetting, Comment
 )
 from .serializers import (
     CategorySerializer, ProjectSerializer, ResearchPaperSerializer, 
     BlogPostSerializer, ResumeSerializer, CertificationSerializer, ContactMessageSerializer,
     ExperienceSerializer, EducationSerializer, SkillSerializer, SiteSettingSerializer,
-    UserRegistrationSerializer
+    UserRegistrationSerializer, CommentSerializer
 )
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAuthenticated
+from rest_framework.decorators import action
 from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -47,6 +48,27 @@ class BlogPostViewSet(viewsets.ModelViewSet):
     queryset = BlogPost.objects.filter(is_published=True).order_by('-published_at')
     serializer_class = BlogPostSerializer
     search_fields = ['title', 'tags_csv']
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
+    def like(self, request, pk=None):
+        post = self.get_object()
+        user = request.user
+        if post.likes.filter(id=user.id).exists():
+            post.likes.remove(user)
+            return Response({'status': 'unliked'}, status=status.HTTP_200_OK)
+        else:
+            post.likes.add(user)
+            return Response({'status': 'liked'}, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
+    def comment(self, request, pk=None):
+        post = self.get_object()
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(post=post, author=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ResumeViewSet(viewsets.ModelViewSet):
     queryset = Resume.objects.all().order_by('-is_primary', '-updated_at')

@@ -76,13 +76,16 @@ onMounted(async () => {
               </p>
             </div>
             
-            <div class="mt-8 flex items-center gap-x-4">
+            <div class="mt-8 flex items-center justify-between gap-x-4">
                <div class="text-sm leading-6">
                  <p class="font-semibold text-white">
-                   <span class="absolute inset-0"></span>
                    {{ post.author || 'Lincoln' }}
                  </p>
                </div>
+               
+               <router-link :to="`/blog/${post.slug}`" class="relative z-10 rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20 transition-colors">
+                   Read Article
+               </router-link>
              </div>
           </div>
         </article>

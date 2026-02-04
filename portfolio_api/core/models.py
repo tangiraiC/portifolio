@@ -113,6 +113,9 @@ class BlogPost(TimeStampedModel):
     tags_csv = models.CharField(max_length=200, blank=True)
     
     is_published = models.BooleanField(default=False)
+    
+    # Interactions
+    likes = models.ManyToManyField("auth.User", related_name="liked_posts", blank=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -121,6 +124,14 @@ class BlogPost(TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+class Comment(TimeStampedModel):
+    post = models.ForeignKey(BlogPost, on_delete=models.CASCADE, related_name="comments")
+    author = models.ForeignKey("auth.User", on_delete=models.CASCADE)
+    content = models.TextField()
+
+    def __str__(self):
+        return f"Comment by {self.author.username} on {self.post.title}"
 
 def resume_pdf_path(instance, filename):
     return f"resume/{filename}"

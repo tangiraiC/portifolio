@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from .models import (
 
     Category, Project, ResearchPaper, BlogPost, Resume, Certification, ContactMessage,
-    Experience, Education, Skill, SiteSetting, ProjectImage
+    Experience, Education, Skill, SiteSetting, ProjectImage, Comment
 )
 
 
@@ -36,10 +36,29 @@ class ResearchPaperSerializer(serializers.ModelSerializer):
         model = ResearchPaper
         fields = '__all__'
 
+class CommentSerializer(serializers.ModelSerializer):
+    author_name = serializers.CharField(source='author.username', read_only=True)
+    
+    class Meta:
+        model = Comment
+        fields = ['id', 'post', 'author', 'author_name', 'content', 'created_at']
+        read_only_fields = ['author', 'created_at']
+
 class BlogPostSerializer(serializers.ModelSerializer):
+    likes_count = serializers.IntegerField(source='likes.count', read_only=True)
+    comments = CommentSerializer(many=True, read_only=True)
+    is_liked = serializers.SerializerMethodField()
+
     class Meta:
         model = BlogPost
-        fields = '__all__'
+        fields = ['id', 'title', 'slug', 'published_at', 'author', 'hero_image', 
+                  'body', 'tags_csv', 'is_published', 'likes_count', 'comments', 'is_liked', 'created_at']
+
+    def get_is_liked(self, obj):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            return obj.likes.filter(id=request.user.id).exists()
+        return False
 
 class ResumeSerializer(serializers.ModelSerializer):
     class Meta:
