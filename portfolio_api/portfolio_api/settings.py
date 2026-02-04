@@ -121,11 +121,13 @@ DATABASES = {
 }
 
 #STATIS & MEDIA
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR/"media"
+# STATIC
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / "uploads"
+# MEDIA (uploads) — MUST point to the persistent disk mount
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.environ.get("MEDIA_ROOT", "/var/data/media")
 
 
 # Password validation
