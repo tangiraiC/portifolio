@@ -5,7 +5,8 @@ import NavBar from '../components/NavBar.vue'
 
 const posts = ref([])
 const loading = ref(true)
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+import config from '../config'
+const API_URL = config.API_URL
 
 onMounted(async () => {
     try {
