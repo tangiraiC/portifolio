@@ -47,6 +47,7 @@ class ResearchPaperViewSet(viewsets.ModelViewSet):
 class BlogPostViewSet(viewsets.ModelViewSet):
     queryset = BlogPost.objects.filter(is_published=True).order_by('-published_at')
     serializer_class = BlogPostSerializer
+    lookup_field = 'slug'
     search_fields = ['title', 'tags_csv']
     permission_classes = [IsAuthenticatedOrReadOnly]
 

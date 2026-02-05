@@ -29,12 +29,8 @@ const parseMarkdown = (text) => {
 const fetchPost = async () => {
     try {
         const headers = token ? { Authorization: `Token ${token}` } : {}
-        const response = await axios.get(`${API_URL}/blog/?search=${route.params.slug}`, { headers })
-        
-        if (response.data.results && response.data.results.length > 0) {
-            // Find exact match
-            post.value = response.data.results.find(p => p.slug === route.params.slug) || response.data.results[0]
-        }
+        const response = await axios.get(`${API_URL}/blog/${route.params.slug}/`, { headers })
+        post.value = response.data
     } catch (error) {
         console.error('Error fetching post:', error)
     } finally {
