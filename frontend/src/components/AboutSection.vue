@@ -14,7 +14,7 @@
                    I’m <span class="text-white font-bold">Lincoln</span>. I build full-stack apps, data tools, and AI-driven systems that turn messy ideas into something people can actually use.
                </p>
                <p>
-                   My background sits somewhere between business, software, and analytics. I studied Business Studies and Computer Science at the University of Zimbabwe, and I’m now working on a <span class="text-white">Master’s in Business Analytics and Artificial Intelligence</span> at American University.
+                   My background sits somewhere between business, software, and analytics. I studied Business Studies and Computer Science at the University of Zimbabwe, and I graduated with a <span class="text-white">Master’s in Business Analytics and Artificial Intelligence</span> from American University.
                </p>
            </div>
            
@@ -23,7 +23,7 @@
                    I’ve worked across IT audit, marketing analysis, and customer-facing roles, which is a useful mix when building products that need to make sense outside the code editor.
                </p>
                <p>
-                   I’m based in Silver Spring, Maryland. Outside of work, I keep up with Manchester City, help out where I can, and occasionally remember that I once ran a sausage business in Zimbabwe.
+                   I’m based in Silver Spring, Maryland. Outside of work, I keep up with Manchester City, help out where I can, and try not to overcomplicate things.
                </p>
            </div>
         </div>
