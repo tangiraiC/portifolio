@@ -116,6 +116,7 @@ class BlogPost(TimeStampedModel):
     
     # Interactions
     likes = models.ManyToManyField("auth.User", related_name="liked_posts", blank=True)
+    anonymous_likes = models.PositiveIntegerField(default=0)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -127,11 +128,13 @@ class BlogPost(TimeStampedModel):
 
 class Comment(TimeStampedModel):
     post = models.ForeignKey(BlogPost, on_delete=models.CASCADE, related_name="comments")
-    author = models.ForeignKey("auth.User", on_delete=models.CASCADE)
+    author = models.ForeignKey("auth.User", on_delete=models.CASCADE, null=True, blank=True)
+    guest_name = models.CharField(max_length=100, blank=True)
     content = models.TextField()
 
     def __str__(self):
-        return f"Comment by {self.author.username} on {self.post.title}"
+        name = self.author.username if self.author else (self.guest_name or "Anonymous")
+        return f"Comment by {name} on {self.post.title}"
 
 def resume_pdf_path(instance, filename):
     return f"resume/{filename}"

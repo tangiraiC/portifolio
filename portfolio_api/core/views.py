@@ -51,23 +51,48 @@ class BlogPostViewSet(viewsets.ModelViewSet):
     search_fields = ['title', 'tags_csv']
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
+    @action(detail=True, methods=['post'], permission_classes=[AllowAny])
     def like(self, request, pk=None):
         post = self.get_object()
-        user = request.user
-        if post.likes.filter(id=user.id).exists():
-            post.likes.remove(user)
-            return Response({'status': 'unliked'}, status=status.HTTP_200_OK)
+        
+        if request.user.is_authenticated:
+            # Authenticated user toggle
+            if post.likes.filter(id=request.user.id).exists():
+                post.likes.remove(request.user)
+                status_msg = 'unliked'
+            else:
+                post.likes.add(request.user)
+                status_msg = 'liked'
         else:
-            post.likes.add(user)
-            return Response({'status': 'liked'}, status=status.HTTP_200_OK)
+            # Anonymous user - just increment for now to keep it simple
+            # (In a real app, we'd maybe track IP or use session to prevent spam, 
+            # but for this MVP we just trust the client state)
+            # We support an 'undo' param if needed, but let's just do increment for now
+            # as localstorage sync handles the UI state.
+            if request.data.get('undo'):
+                if post.anonymous_likes > 0:
+                    post.anonymous_likes -= 1
+                    status_msg = 'unliked'
+                else:
+                    status_msg = 'unliked' # already 0
+            else:
+                post.anonymous_likes += 1
+                status_msg = 'liked'
+            post.save()
 
-    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
+        return Response({'status': status_msg, 'likes_count': post.likes.count() + post.anonymous_likes}, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['post'], permission_classes=[AllowAny])
     def comment(self, request, pk=None):
         post = self.get_object()
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(post=post, author=request.user)
+            if request.user.is_authenticated:
+                serializer.save(post=post, author=request.user)
+            else:
+                guest_name = request.data.get('guest_name')
+                serializer.save(post=post, guest_name=guest_name)
+                
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

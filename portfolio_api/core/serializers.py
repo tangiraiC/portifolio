@@ -37,17 +37,25 @@ class ResearchPaperSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CommentSerializer(serializers.ModelSerializer):
-    author_name = serializers.CharField(source='author.username', read_only=True)
+    author_name = serializers.SerializerMethodField()
     
     class Meta:
         model = Comment
-        fields = ['id', 'post', 'author', 'author_name', 'content', 'created_at']
+        fields = ['id', 'post', 'author', 'guest_name', 'author_name', 'content', 'created_at']
         read_only_fields = ['author', 'created_at']
 
+    def get_author_name(self, obj):
+        if obj.author:
+            return obj.author.username
+        return obj.guest_name or "Anonymous"
+
 class BlogPostSerializer(serializers.ModelSerializer):
-    likes_count = serializers.IntegerField(source='likes.count', read_only=True)
+    likes_count = serializers.SerializerMethodField()
     comments = CommentSerializer(many=True, read_only=True)
     is_liked = serializers.SerializerMethodField()
+
+    def get_likes_count(self, obj):
+        return obj.likes.count() + obj.anonymous_likes
 
     class Meta:
         model = BlogPost

@@ -9,6 +9,7 @@ const route = useRoute()
 const post = ref(null)
 const loading = ref(true)
 const newComment = ref('')
+const guestName = ref('')
 const submittingComment = ref(false)
 const API_URL = config.API_URL
 
@@ -31,6 +32,15 @@ const fetchPost = async () => {
         const headers = token ? { Authorization: `Token ${token}` } : {}
         const response = await axios.get(`${API_URL}/blog/${route.params.slug}/`, { headers })
         post.value = response.data
+
+        // If anonymous, check localStorage if we liked this post
+        if (!isAuthenticated && post.value) {
+            const liked = localStorage.getItem(`liked_post_${post.value.id}`)
+            if (liked) {
+                post.value.is_liked = true
+            }
+        }
+
     } catch (error) {
         console.error('Error fetching post:', error)
     } finally {
@@ -39,39 +49,77 @@ const fetchPost = async () => {
 }
 
 const handleLike = async () => {
-    if (!isAuthenticated) {
-        alert("Please login to like posts.")
-        return
+    // Optimistic UI update
+    const originallyLiked = post.value.is_liked
+    const originalCount = post.value.likes_count
+
+    if (post.value.is_liked) {
+        post.value.is_liked = false
+        post.value.likes_count--
+    } else {
+        post.value.is_liked = true
+        post.value.likes_count++
     }
+
     try {
-        const response = await axios.post(`${API_URL}/blog/${post.value.id}/like/`, {}, {
-            headers: { Authorization: `Token ${token}` }
-        })
+        const headers = token ? { Authorization: `Token ${token}` } : {}
+        const payload = {}
+        
+        // If anonymous, we might be "undoing" a like if it was stored locally
+        if (!isAuthenticated) {
+             const storageKey = `liked_post_${post.value.id}`
+             if (originallyLiked) {
+                 // We are unliking
+                 payload.undo = true
+                 localStorage.removeItem(storageKey)
+             } else {
+                 // We are liking
+                 localStorage.setItem(storageKey, 'true')
+             }
+        }
+
+        const response = await axios.post(`${API_URL}/blog/${post.value.id}/like/`, payload, { headers })
+        
+        // Sync with server response to be sure
+        post.value.likes_count = response.data.likes_count
         if (response.data.status === 'liked') {
             post.value.is_liked = true
-            post.value.likes_count++
         } else {
             post.value.is_liked = false
-            post.value.likes_count--
         }
+
     } catch (error) {
         console.error("Error liking post:", error)
+        // Revert on error
+        post.value.is_liked = originallyLiked
+        post.value.likes_count = originalCount
     }
 }
 
 const submitComment = async () => {
     if (!newComment.value.trim()) return
+    if (!isAuthenticated && !guestName.value.trim()) {
+        alert("Please enter your name.")
+        return
+    }
+
     submittingComment.value = true
     try {
-        const response = await axios.post(`${API_URL}/blog/${post.value.id}/comment/`, {
-            content: newComment.value
-        }, {
-            headers: { Authorization: `Token ${token}` }
-        })
-        // Add new comment to list (optimistic or from response)
+        const headers = token ? { Authorization: `Token ${token}` } : {}
+        const payload = { content: newComment.value }
+        
+        if (!isAuthenticated) {
+            payload.guest_name = guestName.value
+        }
+
+        const response = await axios.post(`${API_URL}/blog/${post.value.id}/comment/`, payload, { headers })
+        
+        // Add new comment to list
         if (!post.value.comments) post.value.comments = []
         post.value.comments.push(response.data)
         newComment.value = ''
+        if (!isAuthenticated) guestName.value = '' // Clear guest name too
+
     } catch (error) {
         console.error("Error commenting:", error)
         alert("Failed to post comment.")
@@ -173,26 +221,38 @@ onMounted(fetchPost)
                 </div>
 
                 <!-- Comment Form -->
-                <div v-if="isAuthenticated">
+                <div>
+                    <div v-if="!isAuthenticated" class="mb-3">
+                        <label class="block text-sm font-medium text-gray-400 mb-1">Name (Required)</label>
+                        <input 
+                            v-model="guestName"
+                            type="text" 
+                            class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none transition"
+                            placeholder="Your Name"
+                        />
+                    </div>
+
                     <textarea 
                         v-model="newComment" 
                         class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none transition"
                         rows="3"
                         placeholder="Add a comment..."
                     ></textarea>
-                    <div class="flex justify-end mt-2">
+                    
+                    <div class="flex justify-between items-center mt-2">
+                        <p v-if="!isAuthenticated" class="text-xs text-gray-500">
+                            Posting as guest. <router-link to="/login" class="text-teal-400 hover:underline">Login</router-link> to track your comments.
+                        </p>
+                        <div v-else></div> <!-- Spacer -->
+
                         <button 
                             @click="submitComment" 
-                            :disabled="submittingComment || !newComment.trim()"
+                            :disabled="submittingComment || !newComment.trim() || (!isAuthenticated && !guestName.trim())"
                             class="px-4 py-2 bg-teal-600 hover:bg-teal-500 text-white rounded-md text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition"
                         >
                             {{ submittingComment ? 'Posting...' : 'Post Comment' }}
                         </button>
                     </div>
-                </div>
-                <div v-else class="text-center p-4 bg-gray-800/50 rounded-lg border border-gray-700">
-                    <p class="text-gray-400 mb-2">Please log in to join the discussion.</p>
-                    <router-link to="/login" class="text-teal-400 hover:text-teal-300 font-semibold text-sm">Login here</router-link>
                 </div>
             </div>
         </div>
