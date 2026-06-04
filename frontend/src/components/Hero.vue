@@ -16,7 +16,7 @@
       </p>
       
       <p class="mt-6 text-lg leading-8 text-gray-400 max-w-2xl mx-auto">
-        Hello! I’m <span class="text-white font-bold">Lincoln T Chanakira</span>. I build intelligent systems that bridge the gap between raw data and actionable business insights. Specializing in Deep Learning, NLP, and scalable data architecture.
+        Hello! I’m <span class="text-white font-bold">Lincoln</span>. I build intelligent systems that bridge the gap between raw data and actionable business insights. Specializing in Deep Learning, NLP, and scalable data architecture.
       </p>
       
       <!-- Visual Placeholder for 3D/Code -->
