@@ -6,4 +6,4 @@ Disallow: /register
 Disallow: /forgot-password
 Disallow: /reset-password
 
-Sitemap: https://portifolio.onrender.com/sitemap.xml
+Sitemap: https://www.lincolnchanakira.com/sitemap.xml

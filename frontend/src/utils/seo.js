@@ -2,6 +2,7 @@ const SITE_NAME = 'Lincoln Portfolio'
 const DEFAULT_TITLE = 'Lincoln | Full-Stack Data Scientist'
 const DEFAULT_DESCRIPTION =
   'Portfolio of Lincoln, a full-stack data scientist building AI systems, data tools, predictive analytics, and business-focused software.'
+const SITE_URL = (import.meta.env.VITE_SITE_URL || window.location.origin).replace(/\/$/, '')
 
 const upsertMeta = (selector, attributes) => {
   let element = document.head.querySelector(selector)
@@ -31,7 +32,7 @@ const upsertLink = (rel, href) => {
 export const applySeo = (route) => {
   const title = route.meta?.title || DEFAULT_TITLE
   const description = route.meta?.description || DEFAULT_DESCRIPTION
-  const canonicalUrl = new URL(route.path || '/', window.location.origin).toString()
+  const canonicalUrl = new URL(route.path || '/', SITE_URL).toString()
 
   document.title = title
 
