@@ -1,21 +1,27 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import config from '../config'
 
 const certifications = ref([])
 const loading = ref(true)
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+const errorMessage = ref('')
 
-onMounted(async () => {
+const loadCertifications = async () => {
+    loading.value = true
+    errorMessage.value = ''
     try {
-        const response = await axios.get(`${API_URL}/certifications/`)
+        const response = await axios.get(config.CERTIFICATIONS)
         certifications.value = response.data.results || response.data
     } catch (error) {
+        errorMessage.value = 'Unable to load certifications. Please try again.'
         console.error('Error fetching certifications:', error)
     } finally {
         loading.value = false
     }
-})
+}
+
+onMounted(loadCertifications)
 </script>
 
 <template>
@@ -49,7 +55,14 @@ onMounted(async () => {
         </div>
       </div>
       
-      <div v-if="!loading && certifications.length === 0" class="text-center py-12 text-gray-500 italic">
+      <div v-if="loading" role="status" class="text-center py-12 text-gray-400">
+          Loading certifications…
+      </div>
+      <div v-else-if="errorMessage" role="alert" class="text-center py-12 text-gray-400">
+          <p>{{ errorMessage }}</p>
+          <button type="button" @click="loadCertifications" class="mt-4 text-teal-400 hover:text-teal-300 underline">Try again</button>
+      </div>
+      <div v-else-if="certifications.length === 0" class="text-center py-12 text-gray-500 italic">
           No certifications uploaded yet.
       </div>
     </div>
