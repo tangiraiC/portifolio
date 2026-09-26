@@ -5,19 +5,25 @@ import NavBar from '../components/NavBar.vue'
 
 const posts = ref([])
 const loading = ref(true)
+const errorMessage = ref('')
 import config from '../config'
-const API_URL = config.API_URL
+const API_URL = config.BLOG
 
-onMounted(async () => {
+const loadPosts = async () => {
+    loading.value = true
+    errorMessage.value = ''
     try {
-        const response = await axios.get(`${API_URL}/blog/`)
+        const response = await axios.get(API_URL)
         posts.value = response.data.results || response.data
     } catch (error) {
+        errorMessage.value = 'Unable to load articles. Please try again.'
         console.error('Error fetching blog posts:', error)
     } finally {
         loading.value = false
     }
-})
+}
+
+onMounted(loadPosts)
 </script>
 
 <template>
@@ -91,8 +97,13 @@ onMounted(async () => {
         </article>
       </div>
 
-      <div v-if="!loading && posts.length === 0" class="text-center py-20">
-          <p class="text-gray-500 italic text-xl">No posts published correctly... yet.</p>
+      <div v-if="loading" role="status" class="text-center py-20 text-gray-400">Loading articles…</div>
+      <div v-else-if="errorMessage" role="alert" class="text-center py-20 text-gray-400">
+          <p>{{ errorMessage }}</p>
+          <button type="button" @click="loadPosts" class="mt-4 underline text-teal-400">Try again</button>
+      </div>
+      <div v-else-if="posts.length === 0" class="text-center py-20">
+          <p class="text-gray-500 italic text-xl">No posts published yet.</p>
           <p class="text-gray-600 mt-2">Check back soon for updates!</p>
       </div>
     </div>
